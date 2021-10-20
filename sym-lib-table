@@ -3,4 +3,6 @@
   (lib (name ldo)(type Legacy)(uri ${KIPRJMOD}/lib/2021-09-23_20-23-16.lib)(options "")(descr ""))
   (lib (name accel)(type Legacy)(uri ${KIPRJMOD}/lib/2021-10-06_23-34-53.lib)(options "")(descr ""))
   (lib (name gyros)(type Legacy)(uri ${KIPRJMOD}/lib/2021-10-07_00-49-01.lib)(options "")(descr ""))
+  (lib (name MP6515GF-Z)(type Legacy)(uri ${KIPRJMOD}/lib/MP6515GF-Z.lib)(options "")(descr ""))
+  (lib (name magnetorquer-rescue)(type Legacy)(uri ${KIPRJMOD}/magnetorquer-rescue.lib)(options "")(descr ""))
 )
