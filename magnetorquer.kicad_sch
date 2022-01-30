@@ -506,11 +506,11 @@
         )
       )
     )
-    (symbol "magnetorquer-rescue:MSP430FR5994IPN-msp" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
+    (symbol "msp:MSP430FR5994IPN" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
       (property "Reference" "U" (id 0) (at 0 2.54 0)
         (effects (font (size 1.524 1.524)))
       )
-      (property "Value" "MSP430FR5994IPN-msp" (id 1) (at 0 0 0)
+      (property "Value" "MSP430FR5994IPN" (id 1) (at 0 0 0)
         (effects (font (size 1.524 1.524)))
       )
       (property "Footprint" "PN0080A_N" (id 2) (at 0 -1.524 0)
@@ -525,7 +525,7 @@
       (property "ki_fp_filters" "PN0080A_N PN0080A_M PN0080A_L" (id 5) (at 0 0 0)
         (effects (font (size 1.27 1.27)) hide)
       )
-      (symbol "MSP430FR5994IPN-msp_1_1"
+      (symbol "MSP430FR5994IPN_1_1"
         (polyline
           (pts
             (xy -81.28 -68.58)
@@ -2010,7 +2010,7 @@
     )
   )
 
-  (symbol (lib_id "magnetorquer-rescue:MSP430FR5994IPN-msp") (at 144.145 93.98 0) (unit 1)
+  (symbol (lib_id "msp:MSP430FR5994IPN") (at 144.145 93.98 0) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 00000000-0000-0000-0000-0000615e437b)
     (property "Reference" "U1" (id 0) (at 144.145 20.6248 0)
@@ -2019,8 +2019,8 @@
     (property "Value" "MSP430FR5994IPN" (id 1) (at 144.145 23.3172 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Footprint" "magnetorque_lib:MSP430FR5994IPM" (id 2) (at 144.145 95.504 0)
-      (effects (font (size 1.524 1.524)) hide)
+    (property "Footprint" "magnetorque_lib:MSP430FR5994IPN" (id 2) (at 144.145 95.504 0)
+      (effects (font (size 1.524 1.524)))
     )
     (property "Datasheet" "" (id 3) (at 144.145 93.98 0)
       (effects (font (size 1.524 1.524)))
@@ -2952,13 +2952,13 @@
       (reference "J2") (unit 1) (value "Conn_01x07_Female") (footprint "Connector_PinHeader_1.00mm:PinHeader_1x07_P1.00mm_Vertical")
     )
     (path "/00000000-0000-0000-0000-00006179e03e/fdcb2037-bdef-4a8f-9927-3cf386350a08"
-      (reference "L1") (unit 1) (value "L_Iron") (footprint "")
+      (reference "L1") (unit 1) (value "L_Iron") (footprint "magnetorque_lib:magnetorquer")
     )
     (path "/00000000-0000-0000-0000-00006179e03e/2085504c-bacb-4d13-8d16-341c091f40b1"
-      (reference "L2") (unit 1) (value "L_Iron") (footprint "")
+      (reference "L2") (unit 1) (value "L_Iron") (footprint "magnetorque_lib:magnetorquer")
     )
     (path "/00000000-0000-0000-0000-00006179e03e/e07af271-de8d-49c5-8d5e-0dfd6ae788f6"
-      (reference "L3") (unit 1) (value "L_Iron") (footprint "")
+      (reference "L3") (unit 1) (value "L_Iron") (footprint "magnetorque_lib:magnetorquer")
     )
     (path "/00000000-0000-0000-0000-00006166ef94"
       (reference "R1") (unit 1) (value "47k") (footprint "Resistor_SMD:R_0805_2012Metric")
@@ -2982,7 +2982,7 @@
       (reference "SW1") (unit 1) (value "SW_Push") (footprint "Button_Switch_THT:SW_Tactile_Straight_KSL0Axx1LFTR")
     )
     (path "/00000000-0000-0000-0000-0000615e437b"
-      (reference "U1") (unit 1) (value "MSP430FR5994IPN") (footprint "magnetorque_lib:MSP430FR5994IPM")
+      (reference "U1") (unit 1) (value "MSP430FR5994IPN") (footprint "magnetorque_lib:MSP430FR5994IPN")
     )
     (path "/00000000-0000-0000-0000-00006179e03e/00000000-0000-0000-0000-0000617b4502"
       (reference "U2") (unit 1) (value "LIS2DH12TR") (footprint "magnetorque_lib:LIS2DH12TR")

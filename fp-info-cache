@@ -1,4 +1,4 @@
-19831419834730378
+19836344715178381
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -84525,6 +84525,13 @@ Integrated Circuit
 8
 8
 magnetorque_lib
+PC104-Standard
+
+
+0
+108
+104
+magnetorque_lib
 TO130P160X410X300-3P
 SS49E
 Integrated Circuit
@@ -84538,3 +84545,17 @@ TPS62122DRVR
 0
 9
 8
+magnetorque_lib
+magnetorquer
+
+
+0
+2
+2
+magnetorque_lib
+magnetorquer_z
+
+
+0
+0
+0
