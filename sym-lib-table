@@ -6,4 +6,5 @@
   (lib (name "MP6515GF-Z")(type "Legacy")(uri "${KIPRJMOD}/lib/MP6515GF-Z.lib")(options "")(descr ""))
   (lib (name "magnetorquer-rescue")(type "Legacy")(uri "${KIPRJMOD}/magnetorquer-rescue.lib")(options "")(descr ""))
   (lib (name "mp65")(type "Legacy")(uri "${KIPRJMOD}/lib/2022-01-24_21-07-45.lib")(options "")(descr ""))
+  (lib (name "pc104")(type "Legacy")(uri "${KIPRJMOD}/lib/Payload.lib")(options "")(descr ""))
 )
