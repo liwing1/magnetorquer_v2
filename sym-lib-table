@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name "MSP430FR5994IPN")(type "Legacy")(uri "${KIPRJMOD}/lib/MSP430FR5994IPN.lib")(options "")(descr ""))
+  (lib (name "PC104")(type "Legacy")(uri "${KIPRJMOD}/lib/Payload.lib")(options "")(descr ""))
+  (lib (name "ATTITUDE")(type "KiCad")(uri "${KIPRJMOD}/lib/LSM6DS3TR-C.kicad_sym")(options "")(descr ""))
+  (lib (name "DRV8837CDSG")(type "Legacy")(uri "${KIPRJMOD}/lib/DRV8837CDSGR.lib")(options "")(descr ""))
+)
