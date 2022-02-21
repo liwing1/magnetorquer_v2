@@ -38,6 +38,7 @@
   )
 
   (setup
+<<<<<<< HEAD
     (stackup
       (layer "F.SilkS" (type "Top Silk Screen"))
       (layer "F.Paste" (type "Top Solder Paste"))
@@ -51,6 +52,8 @@
       (copper_finish "None")
       (dielectric_constraints no)
     )
+=======
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
     (pad_to_mask_clearance 0)
     (pcbplotparams
       (layerselection 0x00010fc_ffffffff)
@@ -88,6 +91,7 @@
   )
 
   (net 0 "")
+<<<<<<< HEAD
   (net 1 "H1_OUT1")
   (net 2 "H1_OUT2")
   (net 3 "H2_OUT1")
@@ -4821,5 +4825,12 @@
   (segment (start 126.777698 106.562399) (end 125.404201 106.562399) (width 0.1524) (layer "F.Cu") (net 84) (tstamp 0e478d6e-5c35-4da9-bae2-d9ab5b52accb))
   (segment (start 136.275597 97.0645) (end 126.777698 106.562399) (width 0.1524) (layer "F.Cu") (net 84) (tstamp 5c84cad7-af78-4510-8ed2-6449d020207b))
   (segment (start 136.275597 96.112) (end 136.275597 97.0645) (width 0.1524) (layer "F.Cu") (net 84) (tstamp f677a53b-9f6c-486c-8755-e9203e2ad6f2))
+=======
+
+  (gr_line (start 197.485 36.83) (end 101.6 36.83) (layer "Edge.Cuts") (width 0.1) (tstamp 88c879b0-2510-4f44-a16d-26dd08b3c12a))
+  (gr_line (start 101.6 36.83) (end 101.6 127) (layer "Edge.Cuts") (width 0.1) (tstamp d0583253-7f1c-498c-afba-93bf9b28c781))
+  (gr_line (start 197.485 127) (end 197.485 36.83) (layer "Edge.Cuts") (width 0.1) (tstamp d75bbaff-de62-4f47-b2c1-42ba1e99da40))
+  (gr_line (start 101.6 127) (end 197.485 127) (layer "Edge.Cuts") (width 0.1) (tstamp e8314017-7be6-4011-9179-37449a29b311))
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
 
 )

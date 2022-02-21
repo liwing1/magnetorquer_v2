@@ -425,7 +425,7 @@ H1_nFAULT
 Text GLabel 1500 1750 0    50   Input ~ 0
 H1_BREAK
 Text GLabel 1500 2050 0    50   Input ~ 0
-H1_nSLEEP
+H_nSLEEP
 Text GLabel 1500 2150 0    50   Input ~ 0
 H1_ENBL
 Text GLabel 1500 1850 0    50   Input ~ 0
@@ -512,7 +512,7 @@ Wire Wire Line
 Text GLabel 3100 1750 2    50   Input ~ 0
 H1_OUT2
 Text GLabel 1500 2250 0    50   Input ~ 0
-H1_OUT2
+H1_OUT1
 Wire Notes Line
 	750  3000 5100 3000
 Wire Notes Line
@@ -620,7 +620,7 @@ H2_nFAULT
 Text GLabel 1500 3850 0    50   Input ~ 0
 H2_BREAK
 Text GLabel 1500 4150 0    50   Input ~ 0
-H2_nSLEEP
+H_nSLEEP
 Text GLabel 1500 4250 0    50   Input ~ 0
 H2_ENBL
 Text GLabel 1500 3950 0    50   Input ~ 0
@@ -707,7 +707,7 @@ Wire Wire Line
 Text GLabel 3100 3850 2    50   Input ~ 0
 H2_OUT2
 Text GLabel 1500 4350 0    50   Input ~ 0
-H2_OUT2
+H2_OUT1
 Wire Notes Line
 	750  5100 5100 5100
 Wire Notes Line
@@ -815,7 +815,7 @@ H3_nFAULT
 Text GLabel 1500 6000 0    50   Input ~ 0
 H3_BREAK
 Text GLabel 1500 6300 0    50   Input ~ 0
-H3_nSLEEP
+H_nSLEEP
 Text GLabel 1500 6400 0    50   Input ~ 0
 H3_ENBL
 Text GLabel 1500 6100 0    50   Input ~ 0
@@ -902,7 +902,7 @@ Wire Wire Line
 Text GLabel 3100 6000 2    50   Input ~ 0
 H3_OUT2
 Text GLabel 1500 6500 0    50   Input ~ 0
-H3_OUT2
+H3_OUT1
 Wire Notes Line
 	750  7250 5100 7250
 Wire Notes Line
@@ -913,4 +913,49 @@ Wire Notes Line
 	750  5500 750  7250
 Text Notes 2850 5475 0    50   ~ 0
 Driver 3
+$Comp
+L Device:L_Core_Iron L1
+U 1 1 61DED93B
+P 4250 2750
+F 0 "L1" V 4475 2750 50  0000 C CNN
+F 1 "L_Core_Iron" V 4384 2750 50  0000 C CNN
+F 2 "" H 4250 2750 50  0001 C CNN
+F 3 "~" H 4250 2750 50  0001 C CNN
+	1    4250 2750
+	0    -1   -1   0   
+$EndComp
+Text GLabel 4100 2750 0    50   Input ~ 0
+H1_OUT1
+Text GLabel 4400 2750 2    50   Input ~ 0
+H1_OUT2
+$Comp
+L Device:L_Core_Iron L2
+U 1 1 61DEFF0E
+P 4275 4825
+F 0 "L2" V 4500 4825 50  0000 C CNN
+F 1 "L_Core_Iron" V 4409 4825 50  0000 C CNN
+F 2 "" H 4275 4825 50  0001 C CNN
+F 3 "~" H 4275 4825 50  0001 C CNN
+	1    4275 4825
+	0    -1   -1   0   
+$EndComp
+Text GLabel 4125 4825 0    50   Input ~ 0
+H2_OUT1
+Text GLabel 4425 4825 2    50   Input ~ 0
+H2_OUT2
+$Comp
+L Device:L_Core_Iron L3
+U 1 1 61DF580B
+P 4350 7000
+F 0 "L3" V 4575 7000 50  0000 C CNN
+F 1 "L_Core_Iron" V 4484 7000 50  0000 C CNN
+F 2 "" H 4350 7000 50  0001 C CNN
+F 3 "~" H 4350 7000 50  0001 C CNN
+	1    4350 7000
+	0    -1   -1   0   
+$EndComp
+Text GLabel 4200 7000 0    50   Input ~ 0
+H3_OUT1
+Text GLabel 4500 7000 2    50   Input ~ 0
+H3_OUT2
 $EndSCHEMATC

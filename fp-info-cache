@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 19837990989160006
 Audio_Module
 Reverb_BTDR-1H
@@ -84489,6 +84490,9 @@ DRV8837CDSGR
 0
 9
 9
+=======
+11475916859924
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
 magnetorque_lib
 L3GD20HTR
 
@@ -84504,6 +84508,7 @@ LIS2DH12TR
 12
 12
 magnetorque_lib
+<<<<<<< HEAD
 MP6515GF-Z
 
 
@@ -84511,6 +84516,8 @@ MP6515GF-Z
 17
 17
 magnetorque_lib
+=======
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
 MSP430FR5994IPM
 
 
@@ -84532,6 +84539,7 @@ Integrated Circuit
 8
 8
 magnetorque_lib
+<<<<<<< HEAD
 PC104-Standard
 
 
@@ -84539,6 +84547,8 @@ PC104-Standard
 108
 104
 magnetorque_lib
+=======
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
 TO130P160X410X300-3P
 SS49E
 Integrated Circuit
@@ -84552,6 +84562,7 @@ TPS62122DRVR
 0
 9
 8
+<<<<<<< HEAD
 magnetorque_lib
 bobinas
 
@@ -84566,3 +84577,5 @@ magnetorquer
 0
 2
 2
+=======
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b

@@ -20,7 +20,7 @@ Wire Wire Line
 Wire Wire Line
 	2275 1400 2275 1600
 $Comp
-L msp:MSP430FR5994IPN U1
+L magnetorquer-rescue:MSP430FR5994IPN-msp U1
 U 1 1 615E437B
 P 5675 3700
 F 0 "U1" H 5675 6588 60  0000 C CNN
@@ -77,22 +77,6 @@ F 3 "" H 600 5500 50  0001 C CNN
 	1    600  5500
 	-1   0    0    -1  
 $EndComp
-Wire Wire Line
-	800  5400 1625 5400
-Wire Wire Line
-	1375 5775 1625 5775
-Wire Wire Line
-	1625 5775 1625 5700
-Wire Wire Line
-	1075 5775 800  5775
-Wire Wire Line
-	800  5775 800  5700
-Wire Wire Line
-	800  5775 800  6100
-Connection ~ 800  5775
-Wire Wire Line
-	1625 5775 1625 6000
-Connection ~ 1625 5775
 Wire Wire Line
 	1625 6000 2275 6000
 Wire Wire Line
@@ -167,50 +151,42 @@ Wire Wire Line
 $Comp
 L Device:Crystal Y1
 U 1 1 6163E54F
-P 1225 5775
-F 0 "Y1" H 1225 6043 50  0000 C CNN
-F 1 "Crystal" H 1225 5952 50  0000 C CNN
-F 2 "" H 1225 5775 50  0001 C CNN
-F 3 "~" H 1225 5775 50  0001 C CNN
-	1    1225 5775
+P 1225 5825
+F 0 "Y1" H 1225 6093 50  0000 C CNN
+F 1 "Crystal" H 1225 6002 50  0000 C CNN
+F 2 "" H 1225 5825 50  0001 C CNN
+F 3 "~" H 1225 5825 50  0001 C CNN
+	1    1225 5825
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:C C6
 U 1 1 6163EBA3
-P 800 5550
-F 0 "C6" H 915 5596 50  0000 L CNN
-F 1 "22p" H 915 5505 50  0000 L CNN
-F 2 "" H 838 5400 50  0001 C CNN
-F 3 "~" H 800 5550 50  0001 C CNN
-	1    800  5550
+P 800 5625
+F 0 "C6" H 915 5671 50  0000 L CNN
+F 1 "22p" H 915 5580 50  0000 L CNN
+F 2 "" H 838 5475 50  0001 C CNN
+F 3 "~" H 800 5625 50  0001 C CNN
+	1    800  5625
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:C C7
 U 1 1 6163F25F
-P 1625 5550
-F 0 "C7" H 1740 5596 50  0000 L CNN
-F 1 "22p" H 1740 5505 50  0000 L CNN
-F 2 "" H 1663 5400 50  0001 C CNN
-F 3 "~" H 1625 5550 50  0001 C CNN
-	1    1625 5550
+P 1625 5625
+F 0 "C7" H 1740 5671 50  0000 L CNN
+F 1 "22p" H 1740 5580 50  0000 L CNN
+F 2 "" H 1663 5475 50  0001 C CNN
+F 3 "~" H 1625 5625 50  0001 C CNN
+	1    1625 5625
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	600  5400 600  5500
-Wire Wire Line
-	800  5400 600  5400
-Connection ~ 800  5400
 NoConn ~ 2275 2200
 NoConn ~ 2275 2300
 NoConn ~ 2275 2400
 NoConn ~ 2275 2500
 NoConn ~ 2275 2600
 NoConn ~ 2275 2700
-NoConn ~ 2275 3400
-NoConn ~ 2275 3500
-NoConn ~ 2275 3600
 NoConn ~ 2275 4200
 NoConn ~ 2275 4300
 NoConn ~ 2275 4400
@@ -219,10 +195,6 @@ NoConn ~ 2275 4700
 NoConn ~ 2275 4800
 NoConn ~ 2275 4900
 NoConn ~ 2275 5000
-NoConn ~ 2275 5100
-NoConn ~ 2275 5200
-NoConn ~ 2275 5300
-NoConn ~ 2275 5400
 NoConn ~ 2275 5600
 NoConn ~ 2275 5700
 NoConn ~ 2275 5800
@@ -233,22 +205,10 @@ NoConn ~ 9075 1600
 NoConn ~ 9075 1700
 NoConn ~ 9075 1800
 NoConn ~ 9075 1900
-NoConn ~ 9075 2100
-NoConn ~ 9075 2200
-NoConn ~ 9075 2300
-NoConn ~ 9075 2400
-NoConn ~ 9075 2500
-NoConn ~ 9075 2600
-NoConn ~ 9075 2700
-NoConn ~ 9075 2800
 NoConn ~ 9075 3400
 NoConn ~ 9075 3500
 NoConn ~ 9075 3600
 NoConn ~ 9075 3700
-NoConn ~ 9075 3900
-NoConn ~ 9075 4000
-NoConn ~ 9075 4100
-NoConn ~ 9075 4200
 Wire Wire Line
 	1850 1200 2075 1200
 Wire Wire Line
@@ -706,4 +666,105 @@ Wire Notes Line
 	4750 7600 6725 7600
 Wire Notes Line
 	6725 6550 6725 7600
+Text GLabel 2175 3400 0    50   Input ~ 0
+H1_ENBL
+Text GLabel 2175 3500 0    50   Input ~ 0
+H2_ENBL
+Text GLabel 2175 3600 0    50   Input ~ 0
+H3_ENBL
+Wire Wire Line
+	2175 3500 2275 3500
+Wire Wire Line
+	2175 3400 2275 3400
+Wire Wire Line
+	2275 3600 2175 3600
+Text GLabel 9375 2100 2    50   Input ~ 0
+H1_BREAK
+Wire Wire Line
+	9075 2500 9375 2500
+Wire Wire Line
+	9375 2600 9075 2600
+Wire Wire Line
+	9375 2100 9075 2100
+Text GLabel 9375 2200 2    50   Input ~ 0
+H1_PHASE
+Wire Wire Line
+	9375 2200 9075 2200
+Text GLabel 9375 2500 2    50   Input ~ 0
+H2_BREAK
+Text GLabel 9375 2600 2    50   Input ~ 0
+H2_PHASE
+Text GLabel 9375 3900 2    50   Input ~ 0
+H3_BREAK
+Wire Wire Line
+	9075 3900 9375 3900
+Text GLabel 9375 4000 2    50   Input ~ 0
+H3_PHASE
+Wire Wire Line
+	9375 4000 9075 4000
+Text GLabel 9375 4100 2    50   Input ~ 0
+H3_BMODE
+Text GLabel 9375 2700 2    50   Input ~ 0
+H2_BMODE
+Text GLabel 9375 2300 2    50   Input ~ 0
+H1_BMODE
+Wire Wire Line
+	9075 2300 9375 2300
+Wire Wire Line
+	9375 2700 9075 2700
+Wire Wire Line
+	9375 4100 9075 4100
+Text GLabel 9375 2400 2    50   Input ~ 0
+H1_nFAULT
+Wire Wire Line
+	9375 2400 9075 2400
+Text GLabel 9375 2800 2    50   Input ~ 0
+H2_nFAULT
+Wire Wire Line
+	9375 2800 9075 2800
+Text GLabel 9375 4200 2    50   Input ~ 0
+H3_nFAULT
+Wire Wire Line
+	9375 4200 9075 4200
+Text GLabel 2150 5100 0    50   Input ~ 0
+H_nSLEEP
+Wire Wire Line
+	2275 5100 2150 5100
+Text GLabel 2150 5200 0    50   Input ~ 0
+H1_VISEN
+Text GLabel 2150 5300 0    50   Input ~ 0
+H2_VISEN
+Text GLabel 2150 5400 0    50   Input ~ 0
+H3_VISEN
+Wire Wire Line
+	2150 5400 2275 5400
+Wire Wire Line
+	2275 5300 2150 5300
+Wire Wire Line
+	2150 5200 2275 5200
+Wire Wire Line
+	1075 5825 800  5825
+Wire Wire Line
+	800  5825 800  6100
+Wire Wire Line
+	1375 5825 1625 5825
+Wire Wire Line
+	1625 5825 1625 6000
+Wire Wire Line
+	1625 5775 1625 5825
+Connection ~ 1625 5825
+Wire Wire Line
+	800  5775 800  5825
+Connection ~ 800  5825
+Wire Wire Line
+	800  5475 800  5450
+Wire Wire Line
+	800  5450 1625 5450
+Wire Wire Line
+	1625 5450 1625 5475
+Wire Wire Line
+	800  5450 600  5450
+Connection ~ 800  5450
+Wire Wire Line
+	600  5450 600  5500
 $EndSCHEMATC

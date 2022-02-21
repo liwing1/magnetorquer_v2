@@ -1,8 +1,14 @@
 {
   "board": {
+<<<<<<< HEAD
     "active_layer": 47,
     "active_layer_preset": "",
     "auto_track_width": false,
+=======
+    "active_layer": 44,
+    "active_layer_preset": "All Layers",
+    "auto_track_width": true,
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
     "hidden_nets": [],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
@@ -36,6 +42,10 @@
       8,
       9,
       10,
+<<<<<<< HEAD
+=======
+      11,
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
       12,
       13,
       14,
@@ -61,7 +71,11 @@
       35,
       36
     ],
+<<<<<<< HEAD
     "visible_layers": "ffffeff_ffffffff",
+=======
+    "visible_layers": "fffffff_ffffffff",
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
     "zone_display_mode": 0
   },
   "meta": {

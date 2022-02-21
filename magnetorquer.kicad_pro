@@ -2,6 +2,7 @@
   "board": {
     "design_settings": {
       "defaults": {
+<<<<<<< HEAD
         "board_outline_line_width": 0.09999999999999999,
         "copper_line_width": 0.19999999999999998,
         "copper_text_italic": false,
@@ -129,6 +130,27 @@
       ],
       "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
+=======
+        "board_outline_line_width": 0.1,
+        "copper_line_width": 0.2,
+        "copper_text_size_h": 1.5,
+        "copper_text_size_v": 1.5,
+        "copper_text_thickness": 0.3,
+        "other_line_width": 0.15,
+        "silk_line_width": 0.15,
+        "silk_text_size_h": 1.0,
+        "silk_text_size_v": 1.0,
+        "silk_text_thickness": 0.15
+      },
+      "diff_pair_dimensions": [],
+      "drc_exclusions": [],
+      "rules": {
+        "solder_mask_clearance": 0.0,
+        "solder_mask_min_width": 0.0
+      },
+      "track_widths": [],
+      "via_dimensions": []
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
     },
     "layer_presets": []
   },
@@ -353,6 +375,7 @@
     "classes": [
       {
         "bus_width": 12.0,
+<<<<<<< HEAD
         "clearance": 0.127,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -370,6 +393,8 @@
       },
       {
         "bus_width": 12.0,
+=======
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
         "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -377,8 +402,12 @@
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
+<<<<<<< HEAD
         "name": "Coil",
         "nets": [],
+=======
+        "name": "Default",
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.25,
@@ -396,7 +425,11 @@
     "last_paths": {
       "gencad": "",
       "idf": "",
+<<<<<<< HEAD
       "netlist": "magnetorquer.net",
+=======
+      "netlist": "",
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
       "specctra_dsn": "",
       "step": "",
       "vrml": ""
@@ -449,6 +482,7 @@
     [
       "00000000-0000-0000-0000-00006179e03e",
       "sensors"
+<<<<<<< HEAD
     ],
     [
       "f48b18e8-009c-465b-83e1-509da1fe6993",
@@ -457,6 +491,8 @@
     [
       "b0ad97c6-3a9f-4b40-baf3-8beb66603a13",
       "coils"
+=======
+>>>>>>> a50fc44587288aebfa9b0a39a50c0ac193d4b34b
     ]
   ],
   "text_variables": {}
