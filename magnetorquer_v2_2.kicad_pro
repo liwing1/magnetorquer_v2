@@ -100,7 +100,7 @@
         "zones_intersect": "error"
       },
       "rules": {
-        "allow_blind_buried_vias": false,
+        "allow_blind_buried_vias": true,
         "allow_microvias": false,
         "max_error": 0.005,
         "min_clearance": 0.127,
@@ -122,7 +122,8 @@
         0.0,
         0.127,
         0.25,
-        0.3556
+        0.3556,
+        1.27
       ],
       "via_dimensions": [
         {

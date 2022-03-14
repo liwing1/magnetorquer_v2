@@ -4,4 +4,8 @@
   (lib (name "ATTITUDE")(type "KiCad")(uri "${KIPRJMOD}/lib/LSM6DS3TR-C.kicad_sym")(options "")(descr ""))
   (lib (name "DRV8837CDSG")(type "Legacy")(uri "${KIPRJMOD}/lib/DRV8837CDSGR.lib")(options "")(descr ""))
   (lib (name "AH9247Z3-G1")(type "Legacy")(uri "${KIPRJMOD}/lib/AH9247Z3-G1.lib")(options "")(descr ""))
+  (lib (name "MSP430FR5994IPM")(type "Legacy")(uri "${KIPRJMOD}/lib/MSP430FR5994IPM.lib")(options "")(descr ""))
+  (lib (name "MSP430FR5889IPM")(type "Legacy")(uri "${KIPRJMOD}/lib/MSP430FR5889IPM.lib")(options "")(descr ""))
+  (lib (name "MSP430FR6972IPM")(type "Legacy")(uri "${KIPRJMOD}/lib/MSP430FR6972IPM.lib")(options "")(descr ""))
+  (lib (name "MSP430FR6972IPM-B")(type "Legacy")(uri "${KIPRJMOD}/lib/MSP430FR6972IPM-B.lib")(options "")(descr ""))
 )
