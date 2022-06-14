@@ -24,6 +24,8 @@ __inline static void init_msp(void);
 
 void main (void)
 {
+    uint8_t data = 1;
+
     init_msp();
     init_uart();
     init_spi();
@@ -38,6 +40,8 @@ void main (void)
 #endif
 
         uart_mng();
+
+        spi_send(data);
 
         __delay_cycles(100000);
     }

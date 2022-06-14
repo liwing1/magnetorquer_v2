@@ -10,6 +10,7 @@
 
 
 __inline void init_spi(void);
+uint8_t spi_send(uint8_t);
 
 
 #endif /* MY_SPI_H_ */

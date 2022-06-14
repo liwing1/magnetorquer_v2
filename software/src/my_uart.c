@@ -18,6 +18,7 @@ uart_tx_t uart_tx = {0};
 
 __inline void init_uart(void)
 {
+    // Config UART to 9600 bauds
     EUSCI_A_UART_initParam uart_param =
     {
      .clockPrescalar = 26,
@@ -79,15 +80,6 @@ uint8_t uart_mng(void)
         uart_rx.write = 0;
         uart_rx.read = 0;
         memset(uart_rx.buffer, 0, DBG_BUFFER_SIZE);
-
-        //USCI_A0 TX buffer ready?
-        while (!EUSCI_A_SPI_getInterruptStatus(EUSCI_A0_BASE,
-            EUSCI_A_SPI_TRANSMIT_INTERRUPT));
-
-        //Send next value
-        EUSCI_A_SPI_transmitData(EUSCI_A0_BASE,
-            0x0A
-            );
 
         //Delay between transmissions for slave to process information
         __delay_cycles(40);

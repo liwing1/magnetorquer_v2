@@ -10,7 +10,6 @@
 #include "my_spi.h"
 
 uint8_t RXData = 0;
-uint8_t TXData = 0;
 
 __inline void init_spi(void)
 {
@@ -49,13 +48,26 @@ __inline void init_spi(void)
     //Wait for slave to initialize
     __delay_cycles(100);
 
-    TXData = 0x01;
     //USCI_A0 TX buffer ready?
     while (!EUSCI_A_SPI_getInterruptStatus(EUSCI_A0_BASE,
         EUSCI_A_SPI_TRANSMIT_INTERRUPT)) ;
 
     //Transmit Data to slave
-    EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, TXData);
+    EUSCI_A_SPI_transmitData(EUSCI_A0_BASE, 0);
+}
+
+uint8_t spi_send(uint8_t data)
+{
+    //USCI_A0 TX buffer ready?
+    while (!EUSCI_A_SPI_getInterruptStatus(EUSCI_A0_BASE,
+        EUSCI_A_SPI_TRANSMIT_INTERRUPT));
+
+    //Send next value
+    EUSCI_A_SPI_transmitData(EUSCI_A0_BASE,
+        data
+        );
+
+    return 0;
 }
 
 #pragma vector = USCI_A0_VECTOR
@@ -71,15 +83,15 @@ __interrupt void USCI_A0_ISR(void)
 //                EUSCI_A_SPI_TRANSMIT_INTERRUPT));
 //
 //            //Increment data
-//            TXData++;
+//            TXData = TXData == 3 ? 2:3;
 //
 //            //Send next value
 //            EUSCI_A_SPI_transmitData(EUSCI_A0_BASE,
 //                TXData
 //                );
-//
-//            //Delay between transmissions for slave to process information
-//            __delay_cycles(40);
+
+            //Delay between transmissions for slave to process information
+            __delay_cycles(40);
             break;
         default:
             break;
