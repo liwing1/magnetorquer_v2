@@ -77,6 +77,9 @@ __inline static void init_msp(void)
 
     GPIO_setAsOutputPin(LED_PORT, LED_PIN_GRN);
     GPIO_setOutputLowOnPin(LED_PORT, LED_PIN_GRN);
+
+    GPIO_setAsOutputPin(GPIO_PORT_P7, GPIO_PIN7);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P7, GPIO_PIN7)
 }
 
 #ifndef __DEBUG__
