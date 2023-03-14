@@ -3,15 +3,16 @@ HW &amp; SW for the new LODESTAR magnetorquer project
 
 ## Preparando firmware para validação de hardware:
   - Sistemas de Clocks:
-    - [ ] DCO;
-    - [ ] Oscilador Externo.
+    - [X] DCO;
+    - [X] Oscilador Externo.
   - Pinos de entrada e saída:
-    - [ ] Acionar LEDs;
-    - [ ] Alimentar Sensores.
+    - [X] Acionar LEDs;
+    - [X] Alimentar Sensores.
   - Acionamento das bobinas:
-    - [ ] Garação dos sinais PWM;
-    - [ ] Magnetôemtro;
+    - [X] Garação dos sinais PWM;
+    - [ ] Magnetômetro;
   - Comunicação Serial:
     - [ ] Acelerômetro & Giroscópio;
-    - [ ] Conector PC104
+    - [X] Conector PC104
   
+
