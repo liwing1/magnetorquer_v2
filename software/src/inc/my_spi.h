@@ -1,16 +1,17 @@
 /*
  * my_spi.h
  *
- *  Created on: 26 de abr de 2022
+ *  Created on: 27 de fev de 2023
  *      Author: liwka
  */
 
-#ifndef MY_SPI_H_
-#define MY_SPI_H_
+#ifndef SRC_INC_MY_SPI_H_
+#define SRC_INC_MY_SPI_H_
 
 
-__inline void init_spi(void);
-uint8_t spi_send(uint8_t);
+void spi_init(void);
+void spi_tx(uint8_t TXData);
+void spi_manager(void);
 
 
-#endif /* MY_SPI_H_ */
+#endif /* SRC_INC_MY_SPI_H_ */

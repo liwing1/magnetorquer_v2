@@ -1,67 +1,106 @@
 /*
  * my_uart.c
  *
- *  Created on: 4 de abr de 2022
+ *  Created on: 27 de fev de 2023
  *      Author: liwka
  */
-#include <driverlib.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include "driverlib.h"
 #include "my_uart.h"
 
 
-uart_rx_t uart_rx = {0};
-uart_tx_t uart_tx = {0};
+//#define _EXT_OSC_
+#define UART_BUFFER_SIZE    255
 
 
-__inline void init_uart(void)
-{
-    // Config UART to 9600 bauds
-    EUSCI_A_UART_initParam uart_param =
-    {
-     .clockPrescalar = 26,
-     .firstModReg = 0,
-     .secondModReg = 214,
-     .overSampling = EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION,
+typedef struct UART_HANDLER{
+    char tx_buffer[UART_BUFFER_SIZE];
+    uint8_t tx_idx;
 
-     .selectClockSource = EUSCI_A_UART_CLOCKSOURCE_SMCLK,
-     .parity = EUSCI_A_UART_NO_PARITY,
-     .msborLsbFirst = EUSCI_A_UART_LSB_FIRST,
-     .numberofStopBits = EUSCI_A_UART_ONE_STOP_BIT,
-     .uartMode = EUSCI_A_UART_MODE
+    char rx_buffer[UART_BUFFER_SIZE];
+    uint8_t rx_idx;
+    uint8_t rx_flag;
+}uart_handler_t;
+
+uart_handler_t uart_handler = {0};
+
+
+void uart_init(void){
+    // Configure UART pins
+    //Set P3.4 and P3.5 as Secondary Module Function Input.
+    /*
+
+    * Select Port 3d
+    * Set Pin 4, 5 to input Primary Module Function, (UCA1TXD/UCA1SIMO, UCA1RXD/UCA1SOMI).
+    */
+
+#ifdef __MSP430FR5994__
+    GPIO_setAsPeripheralModuleFunctionInputPin(
+        GPIO_PORT_P2,
+        GPIO_PIN5 + GPIO_PIN6,
+        GPIO_SECONDARY_MODULE_FUNCTION
+    );
+#else
+    GPIO_setAsPeripheralModuleFunctionInputPin(
+        GPIO_PORT_P3,
+        GPIO_PIN4 + GPIO_PIN5,
+        GPIO_PRIMARY_MODULE_FUNCTION
+    );
+#endif
+
+    // Configure UART
+    EUSCI_A_UART_initParam uart_param = {
+#ifdef _EXT_OSC_ // Config for 32768
+        .clockPrescalar = 3,
+        .firstModReg = 0,
+        .secondModReg = 146,
+        .overSampling = EUSCI_A_UART_LOW_FREQUENCY_BAUDRATE_GENERATION,
+#else           // Config for 1MHz
+        .clockPrescalar = 104,
+        .firstModReg = 2,
+        .secondModReg = 182,
+        .overSampling = EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION,
+#endif
+        .selectClockSource = EUSCI_A_UART_CLOCKSOURCE_SMCLK,
+        .parity = EUSCI_A_UART_NO_PARITY,
+        .msborLsbFirst = EUSCI_A_UART_LSB_FIRST,
+        .numberofStopBits = EUSCI_A_UART_ONE_STOP_BIT,
+        .uartMode = EUSCI_A_UART_MODE,
     };
 
-    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P3, GPIO_PIN4 + GPIO_PIN5, GPIO_PRIMARY_MODULE_FUNCTION);
-
-    if(STATUS_FAIL == EUSCI_A_UART_init(EUSCI_A1_BASE, (EUSCI_A_UART_initParam*) &uart_param)){
+    if (STATUS_FAIL == EUSCI_A_UART_init(EUSCI_A1_BASE, &uart_param)) {
         return;
     }
 
     EUSCI_A_UART_enable(EUSCI_A1_BASE);
 
-    EUSCI_A_UART_clearInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
-    EUSCI_A_UART_enableInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
+    EUSCI_A_UART_clearInterrupt(EUSCI_A1_BASE,
+      EUSCI_A_UART_RECEIVE_INTERRUPT);
 
-    EUSCI_A_UART_clearInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_TRANSMIT_COMPLETE_INTERRUPT);
-    EUSCI_A_UART_enableInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_TRANSMIT_COMPLETE_INTERRUPT);
+    // Enable USCI_A1 RX interrupt
+    EUSCI_A_UART_enableInterrupt(EUSCI_A1_BASE,
+      EUSCI_A_UART_RECEIVE_INTERRUPT);                     // Enable interrupt
 }
 
-uint8_t dbg_printf(const char *format, ...)
-{
+
+// Output message through UART interface
+uint8_t uart_tx(const char* format, ...){
     va_list args;
     int done;
 
     va_start(args, format);
 
-    done = vsnprintf((char*)uart_tx.buffer, DBG_BUFFER_SIZE-1, format, args);
+    done = vsnprintf((char*)uart_handler.tx_buffer, UART_BUFFER_SIZE-1, format, args);
 
-    while(uart_tx.buffer[uart_tx.idx])
+    while(uart_handler.tx_buffer[uart_handler.tx_idx])
     {
-        EUSCI_A_UART_transmitData(EUSCI_A1_BASE, uart_tx.buffer[uart_tx.idx++]);
+        EUSCI_A_UART_transmitData(EUSCI_A1_BASE, uart_handler.tx_buffer[uart_handler.tx_idx++]);
     }
-    uart_tx.idx = 0;
+    uart_handler.tx_idx = 0;
 
     va_end(args);
 
@@ -69,23 +108,16 @@ uint8_t dbg_printf(const char *format, ...)
 }
 
 
-uint8_t uart_mng(void)
-{
-    uint8_t buffer[DBG_BUFFER_SIZE];
+// Process the received data to execute commands
+void uart_manager(void){
+    if(uart_handler.rx_flag){
+        uart_handler.rx_flag = 0;
 
-    if(uart_rx.read)
-    {
-        sprintf((char*)buffer ,"chegou: %s\r\n", (char*)uart_rx.buffer);
-        dbg_printf((char*)buffer);
-        uart_rx.write = 0;
-        uart_rx.read = 0;
-        memset(uart_rx.buffer, 0, DBG_BUFFER_SIZE);
+        uart_tx("Chegou msg: %s\r\n", uart_handler.rx_buffer);
 
-        //Delay between transmissions for slave to process information
-        __delay_cycles(40);
+        memset(uart_handler.rx_buffer, 0, uart_handler.rx_idx);
+        uart_handler.rx_idx = 0;
     }
-
-    return 0;
 }
 
 
@@ -94,20 +126,24 @@ uint8_t uart_mng(void)
 //This is the USCI_A1 interrupt vector service routine.
 //
 //******************************************************************************
-
-#pragma vector = USCI_A1_VECTOR
-__interrupt void USCI_A1_ISR(void)
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=USCI_A1_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(USCI_A1_VECTOR)))
+#endif
+void USCI_A1_ISR(void)
 {
   switch(__even_in_range(UCA1IV,USCI_UART_UCTXCPTIFG))
   {
     case USCI_NONE: break;
-    case USCI_UART_UCRXIFG:
-    {
-        uart_rx.buffer[uart_rx.write++] = EUSCI_A_UART_receiveData(EUSCI_A1_BASE);
-        if(uart_rx.buffer[uart_rx.write - 1] == '\r')
-            uart_rx.read = 1;
+    case USCI_UART_UCRXIFG:{
+        uart_handler.rx_buffer[uart_handler.rx_idx++] = EUSCI_A_UART_receiveData(EUSCI_A1_BASE);
+        if(uart_handler.rx_buffer[uart_handler.rx_idx - 1] == '\r'){
+            uart_handler.rx_flag = 1;
+        }
+        break;
     }
-    break;
     case USCI_UART_UCTXIFG: break;
     case USCI_UART_UCSTTIFG: break;
     case USCI_UART_UCTXCPTIFG: break;
