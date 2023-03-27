@@ -34,9 +34,12 @@
 //******************************************************************************
 
 
-uint8_t adc_flag[3] = {0};
-uint16_t adc_raw[3] = {0};
+typedef struct{
+    uint8_t flag[MAG_IDX_MAX];
+    uint16_t raw[MAG_IDX_MAX];
+} adc_handler_t;
 
+adc_handler_t adc_handler = {0};
 
 void adc_init(void)
 {
@@ -119,34 +122,31 @@ void adc_init(void)
     }
 }
 
+uint8_t adc_read_mag(mag_idx_t mag_idx){
+    ADC12_B_startConversion(
+            ADC12_B_BASE,
+            2 * mag_idx,
+            ADC12_B_SINGLECHANNEL
+            );
+
+//    while(!adc_handler.flag[mag_idx]);
+//    adc_handler.flag[mag_idx] = 0;
+
+    return adc_handler.raw[mag_idx];
+}
+
 void adc_manager(void){
 
-    uint8_t i = 0;
-    for(i = 0; i < 3; i++){
-        ADC12_B_startConversion(
-                ADC12_B_BASE,
-                ADC12_B_MEMORY_0,
-                ADC12_B_SINGLECHANNEL
-        );
-        __delay_cycles(5000);
-        ADC12_B_startConversion(
-                ADC12_B_BASE,
-                ADC12_B_MEMORY_1,
-                ADC12_B_SINGLECHANNEL
-        );
-        __delay_cycles(5000);
-        ADC12_B_startConversion(
-                ADC12_B_BASE,
-                ADC12_B_MEMORY_2,
-                ADC12_B_SINGLECHANNEL
-        );
+    uint8_t mag_i = 0;
+    for(mag_i = 0; mag_i < MAG_IDX_MAX; mag_i++){
+        adc_read_mag((mag_idx_t)mag_i);
         __delay_cycles(5000);
 
-        if(adc_flag[i]){
-            adc_flag[i] = 0;
+        if(adc_handler.flag[mag_i]){
+            adc_handler.flag[mag_i] = 0;
 
-            uart_tx("ADC[%d]: %x\r\n", i, adc_raw[i]);
-            adc_raw[i] = 0;
+            uart_tx("ADC[%d]: %x\r\n", mag_i, adc_handler.raw[mag_i]);
+            adc_handler.raw[mag_i] = 0;
         }
     }
 }
@@ -168,28 +168,28 @@ void ADC12_ISR(void)
     case ADC12IV_ADC12LOIFG: break;                         // Vector  8:  ADC12BLO
     case ADC12IV_ADC12INIFG: break;                         // Vector 10:  ADC12BIN
     case ADC12IV_ADC12IFG0:                                 // Vector 12:  ADC12BMEM0 Interrupt
-        adc_raw[0] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_0);
-        if (adc_raw[0] >= 0x7ff)
+        adc_handler.raw[0] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_0);
+        if (adc_handler.raw[0] >= 0x7ff)
         {
-          adc_flag[0] = 1;
+          adc_handler.flag[0] = 1;
         }
 
         break;
     case ADC12IV_ADC12IFG1: break;                         // Vector 14:  ADC12BMEM1
     case ADC12IV_ADC12IFG2:                                // Vector 16:  ADC12BMEM2
-        adc_raw[1] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_2);
-        if (adc_raw[1] >= 0x7ff)
+        adc_handler.raw[1] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_2);
+        if (adc_handler.raw[1] >= 0x7ff)
         {
-          adc_flag[1] = 1;
+          adc_handler.flag[1] = 1;
         }
 
         break;
     case ADC12IV_ADC12IFG3: break;                         // Vector 18:  ADC12BMEM3
     case ADC12IV_ADC12IFG4:                                // Vector 20:  ADC12BMEM4
-        adc_raw[2] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_4);
-        if (adc_raw[2] >= 0x7ff)
+        adc_handler.raw[2] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_4);
+        if (adc_handler.raw[2] >= 0x7ff)
         {
-          adc_flag[2] = 1;
+          adc_handler.flag[2] = 1;
         }
         break;
     case ADC12IV_ADC12IFG5: break;                         // Vector 22:  ADC12BMEM5
