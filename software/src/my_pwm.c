@@ -94,14 +94,14 @@ void pwm_init (void)
         );
 
     //Initialize compare mode to generate PWM
-    pwm_setDuty(DRV[H1_IN1], 25);
-    pwm_setDuty(DRV[H1_IN2], 75);
+    pwm_setDuty(DRV[H1_IN1], 0);
+    pwm_setDuty(DRV[H1_IN2], 0);
 
-    pwm_setDuty(DRV[H2_IN1], 12);
-    pwm_setDuty(DRV[H2_IN2], 66);
+    pwm_setDuty(DRV[H2_IN1], 0);
+    pwm_setDuty(DRV[H2_IN2], 0);
 
-    pwm_setDuty(DRV[H3_IN1], 99);
-    pwm_setDuty(DRV[H3_IN2], 1);
+    pwm_setDuty(DRV[H3_IN1], 0);
+    pwm_setDuty(DRV[H3_IN2], 0);
 }
 
 

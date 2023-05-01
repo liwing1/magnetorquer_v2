@@ -36,7 +36,7 @@
 
 typedef struct{
     uint8_t flag[MAG_IDX_MAX];
-    uint16_t raw[MAG_IDX_MAX];
+    uint32_t raw[MAG_IDX_MAX];
 } adc_handler_t;
 
 adc_handler_t adc_handler = {0};
@@ -145,7 +145,7 @@ void adc_manager(void){
         if(adc_handler.flag[mag_i]){
             adc_handler.flag[mag_i] = 0;
 
-            uart_tx("ADC[%d]: %x\r\n", mag_i, adc_handler.raw[mag_i]);
+            uart_tx("ADC[%d]: %d mV\r\n", mag_i, (adc_handler.raw[mag_i] * 3300)/4095);
             adc_handler.raw[mag_i] = 0;
         }
     }
@@ -169,7 +169,7 @@ void ADC12_ISR(void)
     case ADC12IV_ADC12INIFG: break;                         // Vector 10:  ADC12BIN
     case ADC12IV_ADC12IFG0:                                 // Vector 12:  ADC12BMEM0 Interrupt
         adc_handler.raw[0] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_0);
-        if (adc_handler.raw[0] >= 0x7ff)
+        if (adc_handler.raw[0] >= 0x4db)
         {
           adc_handler.flag[0] = 1;
         }
@@ -178,7 +178,7 @@ void ADC12_ISR(void)
     case ADC12IV_ADC12IFG1: break;                         // Vector 14:  ADC12BMEM1
     case ADC12IV_ADC12IFG2:                                // Vector 16:  ADC12BMEM2
         adc_handler.raw[1] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_2);
-        if (adc_handler.raw[1] >= 0x7ff)
+        if (adc_handler.raw[1] >= 0x4db)
         {
           adc_handler.flag[1] = 1;
         }
@@ -187,7 +187,7 @@ void ADC12_ISR(void)
     case ADC12IV_ADC12IFG3: break;                         // Vector 18:  ADC12BMEM3
     case ADC12IV_ADC12IFG4:                                // Vector 20:  ADC12BMEM4
         adc_handler.raw[2] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_4);
-        if (adc_handler.raw[2] >= 0x7ff)
+        if (adc_handler.raw[2] >= 0x4db)
         {
           adc_handler.flag[2] = 1;
         }
