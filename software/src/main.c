@@ -25,8 +25,15 @@ void main(void){
     uart_tx("MSP START: %x\r\n", CS_getSMCLK());
 
 //    uint8_t spi_data = 0;
+    uint8_t pwm_value = 20;
     while (1)
     {
+//        pwm_value = (pwm_value < 19 ? pwm_value + 1 : 0);
+//        pwm_setDuty(DRV[H1_IN2], pwm_value);
+//        pwm_setDuty(DRV[H2_IN2], pwm_value);
+//        pwm_setDuty(DRV[H3_IN], pwm_value);
+        uart_tx("PWM: %d\r\n", pwm_value);
+
         uart_manager();
         spi_manager();
         adc_manager();

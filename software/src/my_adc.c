@@ -136,18 +136,26 @@ uint8_t adc_read_mag(mag_idx_t mag_idx){
 }
 
 void adc_manager(void){
-
+    uint32_t adc_mean = 0;
     uint8_t mag_i = 0;
+    uint8_t mean_i = 0;
+
     for(mag_i = 0; mag_i < MAG_IDX_MAX; mag_i++){
-        adc_read_mag((mag_idx_t)mag_i);
-        __delay_cycles(5000);
+        adc_mean = 0;
 
-        if(adc_handler.flag[mag_i]){
-            adc_handler.flag[mag_i] = 0;
+        for(mean_i = 0; mean_i < 10; mean_i++){
+            adc_read_mag((mag_idx_t)mag_i);
+            __delay_cycles(1000);
 
-            uart_tx("ADC[%d]: %d mV\r\n", mag_i, (adc_handler.raw[mag_i] * 3300)/4095);
-            adc_handler.raw[mag_i] = 0;
+            if(adc_handler.flag[mag_i]){
+                adc_handler.flag[mag_i] = 0;
+
+                adc_mean += adc_handler.raw[mag_i];
+                adc_handler.raw[mag_i] = 0;
+            }
         }
+        adc_mean /= 10;
+        uart_tx("ADC[%d]: %d mV\r\n", mag_i, (adc_mean * 3300)/4095);
     }
 }
 
