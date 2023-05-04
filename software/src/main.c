@@ -1,9 +1,9 @@
 #include "driverlib.h"
+#include "DRV8837.h"
 #include "my_clock.h"
 #include "my_uart.h"
 #include "my_led.h"
 #include "my_spi.h"
-#include "my_pwm.h"
 #include "my_adc.h"
 
 

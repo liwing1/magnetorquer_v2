@@ -7,7 +7,7 @@
 
 
 #include "driverlib.h"
-#include "my_pwm.h"
+#include "DRV8837.h"
 
 
 #define DRV_PORT        GPIO_PORT_P6

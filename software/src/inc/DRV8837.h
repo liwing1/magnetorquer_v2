@@ -5,8 +5,10 @@
  *      Author: liwka
  */
 
-#ifndef SRC_INC_MY_PWM_H_
-#define SRC_INC_MY_PWM_H_
+#ifndef SRC_INC_DRV8837_H_
+#define SRC_INC_DRV8837_H_
+
+#include <stdint.h>
 
 enum{
     H1_IN1,
@@ -31,4 +33,4 @@ void pwm_init(void);
 void pwm_setDuty(DRV_t timerIndex, uint8_t dutyPercentage);
 
 
-#endif /* SRC_INC_MY_PWM_H_ */
+#endif /* SRC_INC_DRV8837_H_ */
