@@ -10,6 +10,9 @@
 #include "my_pwm.h"
 
 
+#define DRV_PORT        GPIO_PORT_P6
+#define DRV_PIN_nSLP    GPIO_PIN4
+
 // PWMfreq = SMCLK / TIMER_PERIOD -> 16MHz/1600 = 10KHz
 #define TIMER_PERIOD    1600
 
@@ -54,6 +57,9 @@ const DRV_t DRV[HX_MAX] = {
 
 void pwm_init (void)
 {
+    GPIO_setAsOutputPin(DRV_PORT, DRV_PIN_nSLP);
+    GPIO_setOutputHighOnPin(DRV_PORT, DRV_PIN_nSLP);
+
     //H1 P7.2 -> IN1; P7.3 -> IN2;
     GPIO_setAsPeripheralModuleFunctionOutputPin(
         GPIO_PORT_P7,
@@ -94,13 +100,13 @@ void pwm_init (void)
         );
 
     //Initialize compare mode to generate PWM
-    pwm_setDuty(DRV[H1_IN1], 20);
+    pwm_setDuty(DRV[H1_IN1], 0);
     pwm_setDuty(DRV[H1_IN2], 0);
 
-    pwm_setDuty(DRV[H2_IN1], 20);
+    pwm_setDuty(DRV[H2_IN1], 0);
     pwm_setDuty(DRV[H2_IN2], 0);
 
-    pwm_setDuty(DRV[H3_IN1], 20);
+    pwm_setDuty(DRV[H3_IN1], 0);
     pwm_setDuty(DRV[H3_IN2], 0);
 }
 
