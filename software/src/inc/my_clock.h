@@ -11,5 +11,9 @@
 
 void clock_init(void);
 
+extern uint8_t timer_flag_50ms;
+extern uint8_t timer_flag_100ms;
+extern uint8_t timer_flag_500ms;
+extern uint8_t timer_flag_1s;
 
 #endif /* SRC_INC_MY_CLOCK_H_ */

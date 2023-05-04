@@ -28,25 +28,37 @@ void main(void){
     uint8_t pwm_value = 0;
     while (1)
     {
-        pwm_value = (pwm_value == 95 ? 0 : pwm_value + 5);
-        pwm_setDuty(DRV[H1_IN2], pwm_value);
-        pwm_setDuty(DRV[H2_IN2], pwm_value);
-        pwm_setDuty(DRV[H3_IN2], pwm_value);
-        uart_tx("PWM: %d\r\n", pwm_value);
+        if(timer_flag_50ms){
+            timer_flag_50ms = 0;
+        }
+        else if(timer_flag_100ms){
+            timer_flag_100ms = 0;
 
-        uart_manager();
-        spi_manager();
-        adc_manager();
+            uart_manager();
+            spi_manager();
+        }
+        else if(timer_flag_500ms){
+            timer_flag_500ms = 0;
+
+            adc_manager();
+
+            GPIO_toggleOutputOnPin(LED_PORT, LED_PIN_RED);
+        }
+        else if(timer_flag_1s){
+            timer_flag_1s = 0;
+
+            pwm_value = (pwm_value == 95 ? 0 : pwm_value + 5);
+            pwm_setDuty(DRV[H1_IN2], pwm_value);
+            pwm_setDuty(DRV[H2_IN2], pwm_value);
+            pwm_setDuty(DRV[H3_IN2], pwm_value);
+            uart_tx("PWM: %d\r\n", pwm_value);
+
+            GPIO_toggleOutputOnPin(LED_PORT, LED_PIN_GRN);
+        }
 
 //        spi_data |= BIT7;
 //        spi_tx(spi_data++);
 //        uart_tx("sent = %x\r\n", spi_data);
-
-        GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN1);
-        __delay_cycles(5000000/2);
-        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN1);
-        __delay_cycles(50000000/2);
-
     }
 }
 

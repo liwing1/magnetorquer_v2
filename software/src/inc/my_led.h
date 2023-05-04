@@ -9,6 +9,10 @@
 #define SRC_INC_MY_LED_H_
 
 
+#define LED_PORT        GPIO_PORT_P1
+#define LED_PIN_RED     GPIO_PIN0
+#define LED_PIN_GRN     GPIO_PIN1
+
 void led_init(void);
 
 

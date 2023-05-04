@@ -6,11 +6,9 @@
  */
 
 #include "driverlib.h"
+#include "my_led.h"
 
 
-#define LED_PORT        GPIO_PORT_P1
-#define LED_PIN_RED     GPIO_PIN0
-#define LED_PIN_GRN     GPIO_PIN1
 
 
 void led_init(void){

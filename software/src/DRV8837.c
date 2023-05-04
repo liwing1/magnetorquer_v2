@@ -14,12 +14,12 @@
 #define DRV_PIN_nSLP    GPIO_PIN4
 
 // PWMfreq = SMCLK / TIMER_PERIOD -> 16MHz/1600 = 10KHz
-#define TIMER_PERIOD    1600
+#define PWM_PERIOD    1600
 
 static const Timer_A_initUpModeParam pwm_param = {
     .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
     .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_1,
-    .timerPeriod = TIMER_PERIOD,
+    .timerPeriod = PWM_PERIOD,
     .timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_DISABLE,
     .captureCompareInterruptEnable_CCR0_CCIE = TIMER_A_CCIE_CCR0_INTERRUPT_DISABLE,
     .timerClear = TIMER_A_DO_CLEAR,
@@ -116,7 +116,7 @@ void pwm_setDuty(DRV_t timerIndex, uint8_t dutyPercentage){
         .compareRegister = timerIndex.compareRegister,
         .compareInterruptEnable = TIMER_A_CAPTURECOMPARE_INTERRUPT_DISABLE,
         .compareOutputMode = TIMER_A_OUTPUTMODE_RESET_SET,
-        .compareValue = (TIMER_PERIOD/100) * dutyPercentage
+        .compareValue = (PWM_PERIOD/100) * dutyPercentage
     };
 
     Timer_A_initCompareMode(timerIndex.baseAddress, &initCompParam);
