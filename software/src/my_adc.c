@@ -9,34 +9,9 @@
 #include "my_uart.h"
 
 
-//******************************************************************************
-//  MSP430FR59xx Demo - ADC12B, Sample A1, AVcc Ref, Set P1.0 if A1 > 0.5*AVcc
-//
-//   Description: A single sample is made on A1 with reference to AVcc.
-//   Software sets ADC12BSC to start sample and conversion - ADC12BSC
-//   automatically cleared at EOC. ADC12B internal oscillator times sample (16x)
-//   and conversion. In Mainloop MSP430 waits in LPM0 to save power until ADC12B
-//   conversion complete, ADC12_B_ISR will force exit from LPM0 in Mainloop on
-//   reti. If A0 > 0.5*AVcc, P1.0 set, else reset. The full, correct handling of
-//   and ADC12B interrupt is shown as well.
-//
-//
-//                MSP430FR5969
-//             -----------------
-//         /|\|              XIN|-
-//          | |                 |
-//          --|RST          XOUT|-
-//            |                 |
-//        >---|P9.4/A12         |
-//        >---|P9.5/A13         |
-//        >---|P9.6/A14         |
-//
-//******************************************************************************
-
-
 typedef struct{
     uint8_t flag[MAG_IDX_MAX];
-    uint32_t raw[MAG_IDX_MAX];
+    uint16_t raw[MAG_IDX_MAX];
 } adc_handler_t;
 
 adc_handler_t adc_handler = {0};
@@ -122,15 +97,15 @@ void adc_init(void)
     }
 }
 
-uint8_t adc_read_mag(mag_idx_t mag_idx){
+uint16_t adc_read_mag(mag_idx_t mag_idx){
     ADC12_B_startConversion(
             ADC12_B_BASE,
             2 * mag_idx,
             ADC12_B_SINGLECHANNEL
             );
 
-//    while(!adc_handler.flag[mag_idx]);
-//    adc_handler.flag[mag_idx] = 0;
+    while(!adc_handler.flag[mag_idx]);
+    adc_handler.flag[mag_idx] = 0;
 
     return adc_handler.raw[mag_idx];
 }
@@ -144,19 +119,19 @@ void adc_manager(void){
         adc_mean = 0;
 
         for(mean_i = 0; mean_i < 10; mean_i++){
-            adc_read_mag((mag_idx_t)mag_i);
-            __delay_cycles(1000);
-
-            if(adc_handler.flag[mag_i]){
-                adc_handler.flag[mag_i] = 0;
-
-                adc_mean += adc_handler.raw[mag_i];
-                adc_handler.raw[mag_i] = 0;
-            }
+            adc_mean += adc_read_mag((mag_idx_t)mag_i);
+//            __delay_cycles(1000);
+//
+//            if(adc_handler.flag[mag_i]){
+//                adc_handler.flag[mag_i] = 0;
+//
+//                adc_mean += adc_handler.raw[mag_i];
+//                adc_handler.raw[mag_i] = 0;
+//            }
         }
         adc_mean /= 10;
         uint32_t adc_mv = (adc_mean * 3300)/4095;
-        if(adc_mv){
+        if(adc_mv > 50){
             uart_tx("ADC[%d]: %d mV\r\n", mag_i, adc_mv);
         }
     }
@@ -179,29 +154,21 @@ void ADC12_ISR(void)
     case ADC12IV_ADC12LOIFG: break;                         // Vector  8:  ADC12BLO
     case ADC12IV_ADC12INIFG: break;                         // Vector 10:  ADC12BIN
     case ADC12IV_ADC12IFG0:                                 // Vector 12:  ADC12BMEM0 Interrupt
-        adc_handler.raw[0] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_0);
-        if (adc_handler.raw[0] >= 0x4db)
-        {
-          adc_handler.flag[0] = 1;
-        }
+        adc_handler.raw[MAG_IDX_1] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_0);
+        adc_handler.flag[MAG_IDX_1] = 1;
 
         break;
     case ADC12IV_ADC12IFG1: break;                         // Vector 14:  ADC12BMEM1
     case ADC12IV_ADC12IFG2:                                // Vector 16:  ADC12BMEM2
-        adc_handler.raw[1] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_2);
-        if (adc_handler.raw[1] >= 0x4db)
-        {
-          adc_handler.flag[1] = 1;
-        }
+        adc_handler.raw[MAG_IDX_2] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_2);
+        adc_handler.flag[MAG_IDX_2] = 1;
 
         break;
     case ADC12IV_ADC12IFG3: break;                         // Vector 18:  ADC12BMEM3
     case ADC12IV_ADC12IFG4:                                // Vector 20:  ADC12BMEM4
-        adc_handler.raw[2] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_4);
-        if (adc_handler.raw[2] >= 0x4db)
-        {
-          adc_handler.flag[2] = 1;
-        }
+        adc_handler.raw[MAG_IDX_3] = ADC12_B_getResults(ADC12_B_BASE, ADC12_B_MEMORY_4);
+        adc_handler.flag[MAG_IDX_3] = 1;
+
         break;
     case ADC12IV_ADC12IFG5: break;                         // Vector 22:  ADC12BMEM5
     case ADC12IV_ADC12IFG6: break;                         // Vector 24:  ADC12BMEM6

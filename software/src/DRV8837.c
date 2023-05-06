@@ -13,8 +13,8 @@
 #define DRV_PORT        GPIO_PORT_P6
 #define DRV_PIN_nSLP    GPIO_PIN4
 
-// PWMfreq = SMCLK / TIMER_PERIOD -> 16MHz/1600 = 10KHz
-#define PWM_PERIOD    1600
+// PWMfreq = SMCLK / TIMER_PERIOD -> 16MHz/16000 = 1KHz
+#define PWM_PERIOD    16000*2
 
 static const Timer_A_initUpModeParam pwm_param = {
     .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
