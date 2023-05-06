@@ -9,8 +9,6 @@
 #include "my_led.h"
 
 
-
-
 void led_init(void){
     GPIO_setAsOutputPin(LED_PORT, LED_PIN_RED);
     GPIO_setOutputLowOnPin(LED_PORT, LED_PIN_RED);
@@ -19,3 +17,7 @@ void led_init(void){
     GPIO_setOutputLowOnPin(LED_PORT, LED_PIN_GRN);
 }
 
+
+void led_manager(void){
+
+}

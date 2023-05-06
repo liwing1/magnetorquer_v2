@@ -29,6 +29,7 @@ uint8_t timer_flag_50ms = 0;
 uint8_t timer_flag_100ms = 0;
 uint8_t timer_flag_500ms = 0;
 uint8_t timer_flag_1s = 0;
+uint8_t timer_flag_3s = 0;
 
 void clock_init(void){
     //Set DCO frequency to 16 MHz
@@ -86,17 +87,20 @@ __interrupt void timer1_ISR(void){
     case TB0IV_TBCCR6: break;           /* TB0CCR6_CCIFG */
     case TB0IV_TBIFG:                   /* TB0IFG */
         timer_flag++;
-        if(timer_flag == 50){
+        if(timer_flag % 50 == 0){
             timer_flag_50ms = 1;
         }
-        else if(timer_flag == 100){
+        if(timer_flag % 100 == 0){
             timer_flag_100ms = 1;
         }
-        else if(timer_flag == 500){
+        if(timer_flag % 500 == 0){
             timer_flag_500ms = 1;
         }
-        else if(timer_flag == 1000){
+        if(timer_flag % 1000 == 0){
             timer_flag_1s = 1;
+        }
+        if(timer_flag % 3000 == 0){
+            timer_flag_3s = 1;
             timer_flag = 0;
         }
 

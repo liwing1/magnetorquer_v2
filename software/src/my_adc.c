@@ -155,7 +155,10 @@ void adc_manager(void){
             }
         }
         adc_mean /= 10;
-        uart_tx("ADC[%d]: %d mV\r\n", mag_i, (adc_mean * 3300)/4095);
+        uint32_t adc_mv = (adc_mean * 3300)/4095;
+        if(adc_mv){
+            uart_tx("ADC[%d]: %d mV\r\n", mag_i, adc_mv);
+        }
     }
 }
 

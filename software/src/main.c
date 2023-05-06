@@ -36,16 +36,21 @@ void main(void){
 
             uart_manager();
             spi_manager();
+
         }
         else if(timer_flag_500ms){
             timer_flag_500ms = 0;
-
-            adc_manager();
 
             GPIO_toggleOutputOnPin(LED_PORT, LED_PIN_RED);
         }
         else if(timer_flag_1s){
             timer_flag_1s = 0;
+
+            adc_manager();
+
+        }
+        else if(timer_flag_3s){
+            timer_flag_3s = 0;
 
             pwm_value = (pwm_value == 95 ? 0 : pwm_value + 5);
             pwm_setDuty(DRV[H1_IN2], pwm_value);
