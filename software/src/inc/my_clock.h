@@ -15,6 +15,6 @@ extern uint8_t timer_flag_50ms;
 extern uint8_t timer_flag_100ms;
 extern uint8_t timer_flag_500ms;
 extern uint8_t timer_flag_1s;
-extern uint8_t timer_flag_3s;
+extern uint8_t timer_flag_5s;
 
 #endif /* SRC_INC_MY_CLOCK_H_ */

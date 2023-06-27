@@ -31,6 +31,7 @@ extern const DRV_t DRV[HX_MAX];
 
 void pwm_init(void);
 void pwm_setDuty(DRV_t timerIndex, uint8_t dutyPercentage);
+void mag_states(void);
 
 
 #endif /* SRC_INC_DRV8837_H_ */

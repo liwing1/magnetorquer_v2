@@ -31,12 +31,7 @@ uart_handler_t uart_handler = {0};
 
 void uart_init(void){
     // Configure UART pins
-    //Set P3.4 and P3.5 as Secondary Module Function Input.
-    /*
-
-    * Select Port 3d
-    * Set Pin 4, 5 to input Primary Module Function, (UCA1TXD/UCA1SIMO, UCA1RXD/UCA1SOMI).
-    */
+    //Set P4.2 and P4.3 as Secondary Module Function Input.
 
 #ifdef __MSP430FR5994__
     GPIO_setAsPeripheralModuleFunctionInputPin(
@@ -46,8 +41,8 @@ void uart_init(void){
     );
 #else
     GPIO_setAsPeripheralModuleFunctionInputPin(
-        GPIO_PORT_P3,
-        GPIO_PIN4 + GPIO_PIN5,
+        GPIO_PORT_P4,
+        GPIO_PIN2 + GPIO_PIN3,
         GPIO_PRIMARY_MODULE_FUNCTION
     );
 #endif
@@ -72,18 +67,18 @@ void uart_init(void){
         .uartMode = EUSCI_A_UART_MODE,
     };
 
-    if (STATUS_FAIL == EUSCI_A_UART_init(EUSCI_A1_BASE, &uart_param)) {
+    if (STATUS_FAIL == EUSCI_A_UART_init(EUSCI_A0_BASE, &uart_param)) {
         return;
     }
 
-    EUSCI_A_UART_enable(EUSCI_A1_BASE);
+    EUSCI_A_UART_enable(EUSCI_A0_BASE);
 
-    EUSCI_A_UART_clearInterrupt(EUSCI_A1_BASE,
+    EUSCI_A_UART_clearInterrupt(EUSCI_A0_BASE,
       EUSCI_A_UART_RECEIVE_INTERRUPT);
 
-    // Enable USCI_A1 RX interrupt
-    EUSCI_A_UART_enableInterrupt(EUSCI_A1_BASE,
-      EUSCI_A_UART_RECEIVE_INTERRUPT);                     // Enable interrupt
+    // Enable USCI_A0 RX interrupt
+    EUSCI_A_UART_enableInterrupt(EUSCI_A0_BASE,
+    EUSCI_A_UART_RECEIVE_INTERRUPT);                     // Enable interrupt
 }
 
 
@@ -98,7 +93,7 @@ uint8_t uart_tx(const char* format, ...){
 
     while(uart_handler.tx_buffer[uart_handler.tx_idx])
     {
-        EUSCI_A_UART_transmitData(EUSCI_A1_BASE, uart_handler.tx_buffer[uart_handler.tx_idx++]);
+        EUSCI_A_UART_transmitData(EUSCI_A0_BASE, uart_handler.tx_buffer[uart_handler.tx_idx++]);
     }
     uart_handler.tx_idx = 0;
 
@@ -123,22 +118,22 @@ void uart_manager(void){
 
 //******************************************************************************
 //
-//This is the USCI_A1 interrupt vector service routine.
+//This is the USCI_A0 interrupt vector service routine.
 //
 //******************************************************************************
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
-#pragma vector=USCI_A1_VECTOR
+#pragma vector=USCI_A0_VECTOR
 __interrupt
 #elif defined(__GNUC__)
-__attribute__((interrupt(USCI_A1_VECTOR)))
+__attribute__((interrupt(USCI_A0_VECTOR)))
 #endif
-void USCI_A1_ISR(void)
+void USCI_A0_ISR(void)
 {
-  switch(__even_in_range(UCA1IV,USCI_UART_UCTXCPTIFG))
+  switch(__even_in_range(UCA0IV,USCI_UART_UCTXCPTIFG))
   {
     case USCI_NONE: break;
     case USCI_UART_UCRXIFG:{
-        uart_handler.rx_buffer[uart_handler.rx_idx++] = EUSCI_A_UART_receiveData(EUSCI_A1_BASE);
+        uart_handler.rx_buffer[uart_handler.rx_idx++] = EUSCI_A_UART_receiveData(EUSCI_A0_BASE);
         if(uart_handler.rx_buffer[uart_handler.rx_idx - 1] == '\r'){
             uart_handler.rx_flag = 1;
         }

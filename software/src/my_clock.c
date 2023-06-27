@@ -29,7 +29,7 @@ uint8_t timer_flag_50ms = 0;
 uint8_t timer_flag_100ms = 0;
 uint8_t timer_flag_500ms = 0;
 uint8_t timer_flag_1s = 0;
-uint8_t timer_flag_3s = 0;
+uint8_t timer_flag_5s = 0;
 
 void clock_init(void){
     //Set DCO frequency to 16 MHz
@@ -99,8 +99,8 @@ __interrupt void timer1_ISR(void){
         if(timer_flag % 1000 == 0){
             timer_flag_1s = 1;
         }
-        if(timer_flag % 3000 == 0){
-            timer_flag_3s = 1;
+        if(timer_flag % 5000 == 0){
+            timer_flag_5s = 1;
             timer_flag = 0;
         }
 

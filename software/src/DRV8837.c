@@ -8,17 +8,28 @@
 
 #include "driverlib.h"
 #include "DRV8837.h"
+#include "my_uart.h"
 
 
 #define DRV_PORT        GPIO_PORT_P6
 #define DRV_PIN_nSLP    GPIO_PIN4
 
 // PWMfreq = SMCLK / TIMER_PERIOD -> 16MHz/16000 = 1KHz
-#define PWM_PERIOD    16000*2
+#define PWM_PERIOD    25000
+
+typedef enum{
+    STATE_FIRST_MAG,
+    STATE_DEMAG_POS,
+    STATE_DEMAG_NEG,
+    STATE_MAG_NEG,
+    STATE_MAG_POS,
+} states_t;
+
+states_t state = STATE_FIRST_MAG;
 
 static const Timer_A_initUpModeParam pwm_param = {
     .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
-    .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_1,
+    .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_64,
     .timerPeriod = PWM_PERIOD,
     .timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_DISABLE,
     .captureCompareInterruptEnable_CCR0_CCIE = TIMER_A_CCIE_CCR0_INTERRUPT_DISABLE,
@@ -120,4 +131,60 @@ void pwm_setDuty(DRV_t timerIndex, uint8_t dutyPercentage){
     };
 
     Timer_A_initCompareMode(timerIndex.baseAddress, &initCompParam);
+}
+
+void mag_states(void){
+    static uint8_t pwm_value = 0;
+    switch(state){
+        case STATE_FIRST_MAG:
+            pwm_value = pwm_value == 100 ? 0 : pwm_value + 1;
+
+            pwm_setDuty(DRV[H1_IN2], pwm_value);
+            pwm_setDuty(DRV[H2_IN2], pwm_value);
+            pwm_setDuty(DRV[H3_IN2], pwm_value);
+
+            if(pwm_value == 100) state = STATE_DEMAG_POS;
+        break;
+
+        case STATE_DEMAG_POS:
+            pwm_value = pwm_value == 0 ? 100 : pwm_value - 1;
+
+            pwm_setDuty(DRV[H1_IN2], pwm_value);
+            pwm_setDuty(DRV[H2_IN2], pwm_value);
+            pwm_setDuty(DRV[H3_IN2], pwm_value);
+
+            if(pwm_value == 0) state = STATE_DEMAG_NEG;
+        break;
+
+        case STATE_DEMAG_NEG:
+            pwm_value = pwm_value == 100 ? 0 : pwm_value + 1;
+
+            pwm_setDuty(DRV[H1_IN1], pwm_value);
+            pwm_setDuty(DRV[H2_IN1], pwm_value);
+            pwm_setDuty(DRV[H3_IN1], pwm_value);
+
+            if(pwm_value == 100) state = STATE_MAG_NEG;
+        break;
+
+        case STATE_MAG_NEG:
+            pwm_value = pwm_value == 0 ? 100 : pwm_value - 1;
+
+            pwm_setDuty(DRV[H1_IN1], pwm_value);
+            pwm_setDuty(DRV[H2_IN1], pwm_value);
+            pwm_setDuty(DRV[H3_IN1], pwm_value);
+
+            if(pwm_value == 0) state = STATE_MAG_POS;
+        break;
+
+        case STATE_MAG_POS:
+            pwm_value = pwm_value == 100 ? 0 : pwm_value + 1;
+
+            pwm_setDuty(DRV[H1_IN2], pwm_value);
+            pwm_setDuty(DRV[H2_IN2], pwm_value);
+            pwm_setDuty(DRV[H3_IN2], pwm_value);
+
+            if(pwm_value == 100) state = STATE_DEMAG_POS;
+        break;
+    }
+    uart_tx("PWM: %d, %d\r\n", pwm_value, state);
 }

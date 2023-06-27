@@ -13,7 +13,16 @@
 #define LED_PIN_RED     GPIO_PIN0
 #define LED_PIN_GRN     GPIO_PIN1
 
-void led_init(void);
+typedef struct{
+    uint8_t port;
+    uint8_t pin;
+    uint8_t request;
+    uint8_t on;
+} led_t;
 
+
+void led_init(led_t* led_obj);
+void led_blink(led_t* led_obj);
+void led_manager(led_t* led_obj);
 
 #endif /* SRC_INC_MY_LED_H_ */
