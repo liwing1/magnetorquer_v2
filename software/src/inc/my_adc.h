@@ -18,6 +18,7 @@ typedef enum{
 void adc_init(void);
 void adc_manager(void);
 uint16_t adc_read_mag(mag_idx_t mag_idx);
+uint16_t adc_read_raw_mean(mag_idx_t mag_idx);
 
 
 #endif /* SRC_INC_MY_ADC_H_ */

@@ -69,7 +69,8 @@ const DRV_t DRV[HX_MAX] = {
 void pwm_init (void)
 {
     GPIO_setAsOutputPin(DRV_PORT, DRV_PIN_nSLP);
-    GPIO_setOutputHighOnPin(DRV_PORT, DRV_PIN_nSLP);
+//    GPIO_setOutputHighOnPin(DRV_PORT, DRV_PIN_nSLP);
+    GPIO_setOutputLowOnPin(DRV_PORT, DRV_PIN_nSLP);
 
     //H1 P7.2 -> IN1; P7.3 -> IN2;
     GPIO_setAsPeripheralModuleFunctionOutputPin(

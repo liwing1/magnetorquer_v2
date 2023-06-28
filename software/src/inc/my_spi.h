@@ -8,10 +8,11 @@
 #ifndef SRC_INC_MY_SPI_H_
 #define SRC_INC_MY_SPI_H_
 
+#include <stdint.h>
 
 void spi_init(void);
 void spi_tx(uint8_t TXData);
-void spi_manager(void);
+uint8_t spi_manager(void);
 
 
 #endif /* SRC_INC_MY_SPI_H_ */

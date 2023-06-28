@@ -22,11 +22,12 @@ void adc_init(void)
     * Select Port 4
     * Set Pin 4, 5, 6 to output Primary Module Function
     */
-    GPIO_setAsPeripheralModuleFunctionOutputPin(
-        GPIO_PORT_P9,
-        GPIO_PIN4 + GPIO_PIN5 + GPIO_PIN6,
-        GPIO_PRIMARY_MODULE_FUNCTION
-    );
+    // CAUSA QUEDA NA TENSAO DO SENSOR HALL
+//    GPIO_setAsPeripheralModuleFunctionOutputPin(
+//        GPIO_PORT_P9,
+//        GPIO_PIN4 + GPIO_PIN5 + GPIO_PIN6,
+//        GPIO_SECONDARY_MODULE_FUNCTION
+//    );
 
 
     //Initialize the ADC12B Module
@@ -108,6 +109,17 @@ uint16_t adc_read_mag(mag_idx_t mag_idx){
     adc_handler.flag[mag_idx] = 0;
 
     return adc_handler.raw[mag_idx];
+}
+
+uint16_t adc_read_raw_mean(mag_idx_t mag_idx){
+    uint16_t mean = 0;
+    uint8_t i;
+    for(i = 0; i < 10; i++){
+        mean += adc_read_mag(mag_idx);
+    }
+    mean /= 10;
+
+    return mean;
 }
 
 void adc_manager(void){

@@ -72,7 +72,7 @@ void spi_tx(uint8_t TXData){
     //Transmit Data to slave
     EUSCI_A_SPI_transmitData(EUSCI_A1_BASE, TXData);
 
-    UCA1TXBUF = 0xFF;
+//    UCA1TXBUF = 0xFF;
 
 //    //USCI_A1 TX buffer ready?
 //    while (!EUSCI_A_SPI_getInterruptStatus(EUSCI_A1_BASE,
@@ -83,13 +83,16 @@ void spi_tx(uint8_t TXData){
 }
 
 
-void spi_manager(void){
+uint8_t spi_manager(void){
+    uint8_t rx_byte = 0;
     if(spi_handler.rx_flag){
         spi_handler.rx_flag = 0;
 
+        rx_byte = spi_handler.rx_data;
 //        uart_tx("SPI_RX: %d\r\n", spi_handler.rx_data);
         spi_handler.rx_data = 0;
     }
+    return rx_byte;
 }
 
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
@@ -105,10 +108,7 @@ void USCI_A1_ISR(void)
         case USCI_SPI_UCRXIFG:{     // UCRXIFG
 
             spi_handler.rx_data = EUSCI_A_SPI_receiveData(EUSCI_A1_BASE);
-
-            if(spi_handler.rx_data != 0){
-                spi_handler.rx_flag++;
-            }
+            spi_handler.rx_flag++;
 
             break;
         }

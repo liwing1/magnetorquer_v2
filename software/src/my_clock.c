@@ -103,6 +103,9 @@ __interrupt void timer1_ISR(void){
             timer_flag_5s = 1;
             timer_flag = 0;
         }
+        if(timer_flag_50ms | timer_flag_100ms |timer_flag_500ms | timer_flag_1s | timer_flag_5s){
+            __low_power_mode_off_on_exit();
+        }
 
         break;
     default: _never_executed();

@@ -5,6 +5,7 @@
 #include "my_led.h"
 #include "my_spi.h"
 #include "my_adc.h"
+#include "LSM6DS3.h"
 
 
 led_t led_red = {
@@ -22,7 +23,6 @@ led_t led_grn = {
 };
 
 void main(void){
-
     // stop watchdog
     WDT_A_hold(WDT_A_BASE);
     PMM_unlockLPM5();
@@ -37,9 +37,10 @@ void main(void){
 
     __enable_interrupt();
 
+    LSM6DS3_init();
     uart_tx("MSP START: %x\r\n", CS_getSMCLK());
+    uart_tx("mag_x, mag_y, mag_z, accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z\n");
 
-    uint8_t spi_data = 0x8F;
 
     while (1){
         if(timer_flag_50ms){
@@ -52,36 +53,40 @@ void main(void){
             timer_flag_100ms = 0;
 
             uart_manager();
-            spi_manager();
+
+            LSM6DS3_update();
+
+            uint16_t b[3];
+            int16_t a[3];
+            int16_t g[3];
+            uint8_t i;
+            for(i = 0; i < 3; i++){
+                b[i] = adc_read_raw_mean((mag_idx_t)i);
+                a[i] = LSM6DS3_getAccelData(i);
+                g[i] = LSM6DS3_getGyrosData(i);
+            }
+            uart_tx("%d,%d,%d,%d,%d,%d,%d,%d,%d\n",
+                    b[1], b[0], b[2],
+                    a[0], a[1], a[2],
+                    g[0], g[1], g[2]
+                                  );
 
         }
         else if(timer_flag_500ms){
             timer_flag_500ms = 0;
 
-            led_blink(&led_red);
         }
         else if(timer_flag_1s){
             timer_flag_1s = 0;
-
-            spi_tx(spi_data);
-//            uint8_t i;
-//            uint16_t b[3];
-//            for(i = 0; i < 3; i++){
-//                b[i] = adc_read_mag(i);
-//            }
-//            uart_tx("%d,%d,%d\n", b[0], b[1], b[2]);
+            led_blink(&led_red);
 
         }
         else if(timer_flag_5s){
             timer_flag_5s = 0;
-
             led_blink(&led_grn);
-            mag_states();
+//            mag_states();
         }
-
-//        spi_data |= BIT7;
-//        spi_tx(spi_data++);
-//        uart_tx("sent = %x\r\n", spi_data);
+        __low_power_mode_4();
     }
 }
 
